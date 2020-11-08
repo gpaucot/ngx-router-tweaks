@@ -1,5 +1,5 @@
-import {from, Observable, of} from "rxjs";
-import {ɵisObservable as isObservable, ɵisPromise as isPromise} from "@angular/core";
+import { from, Observable, of } from 'rxjs';
+import { ɵisObservable as isObservable, ɵisPromise as isPromise } from '@angular/core';
 
 export function wrapIntoObservable<T>(value: T | Promise<T> | Observable<T>): Observable<T> {
     if (isObservable(value)) {
