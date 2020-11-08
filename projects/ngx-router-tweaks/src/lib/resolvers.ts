@@ -1,22 +1,8 @@
-import { Injectable, Injector, Type, ɵisObservable as isObservable, ɵisPromise as isPromise } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
-import { concat, from, Observable, of, Subject } from 'rxjs';
-import { filter, map, mergeMap, startWith, switchMap, take, tap } from 'rxjs/operators';
-
-export function wrapIntoObservable<T>(value: T | Promise<T> | Observable<T>): Observable<T> {
-    if (isObservable(value)) {
-        return value;
-    }
-
-    if (isPromise(value)) {
-        // Use `Promise.resolve()` to wrap promise-like instances.
-        // Required ie when a Resolver returns a AngularJS `$q` promise to correctly trigger the
-        // change detection.
-        return from(Promise.resolve(value));
-    }
-
-    return of(value);
-}
+import { Injectable, Injector, Type } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { concat, Observable, of, Subject } from 'rxjs';
+import { wrapIntoObservable } from './wrapIntoObservable';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 export function resolver<Z>(
     resolve: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => Observable<Z> | Promise<Z> | Z
@@ -107,23 +93,6 @@ export function resolver<A>(...args: any[]): Type<Resolve<A>> {
     return Q;
 }
 
-export function waitForResolvers<A = unknown>(keys: string[], R: Type<Resolve<A>>): Type<Resolve<A>> {
-    return wrapResolver(
-        (route) => {
-            const resolverCompleted$ = getResolverCompleted(route);
-            return concat(of(null), resolverCompleted$).pipe(
-                filter((data) => {
-                    const loadedKeys = Object.keys(data || {});
-                    return keys.every((k) => loadedKeys.includes(k));
-                }),
-                take(1)
-            );
-        },
-        R,
-        null
-    );
-}
-
 export function wrapResolver<A = unknown>(
     before: (
         route: ActivatedRouteSnapshot,
@@ -154,6 +123,7 @@ export function wrapResolver<A = unknown>(
             );
         }
     }
+
     return Q;
 }
 
@@ -169,7 +139,24 @@ export function getResolverCompleted(route: ActivatedRouteSnapshot): Subject<any
     const resolverCompleted$ = routeObj.__resolverCompleted$ as Subject<any>;
 
     if (!resolverCompleted$) {
-        throw new Error('waitForResolvers requires the RouterTweaksModule to be imported');
+        throw new Error('waitForResolvers requires the NgxRouterTweaksModule to be imported');
     }
     return resolverCompleted$;
+}
+
+export function waitForResolvers<A = unknown>(keys: string[], R: Type<Resolve<A>>): Type<Resolve<A>> {
+    return wrapResolver(
+        (route) => {
+            const resolverCompleted$ = getResolverCompleted(route);
+            return concat(of(null), resolverCompleted$).pipe(
+                filter((data) => {
+                    const loadedKeys = Object.keys(data || {});
+                    return keys.every((k) => loadedKeys.includes(k));
+                }),
+                take(1)
+            );
+        },
+        R,
+        null
+    );
 }

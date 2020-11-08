@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { filter } from 'rxjs/operators';
-import { ActivationEnd, ActivationStart, Router } from '@angular/router';
+import { ActivationEnd, ActivationStart, Router, RouterModule } from '@angular/router';
 import { getResolverCompleted, registerResolverCompleted, wrapResolver } from './resolvers';
 
-@NgModule({})
+@NgModule({
+    imports: [RouterModule],
+})
 export class NgxRouterTweaksModule {
     constructor(router: Router) {
         router.events.pipe(filter((e) => e instanceof ActivationStart)).subscribe((e: ActivationStart) => {

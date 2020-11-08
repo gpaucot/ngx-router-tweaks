@@ -10,4 +10,5 @@ before_script:
     - npm install -g @angular/cli
 script:
     - ng lint
-    - ng build --prod
+    - ng build ngx-router-tweaks --prod
+    - ng build demo --prod
