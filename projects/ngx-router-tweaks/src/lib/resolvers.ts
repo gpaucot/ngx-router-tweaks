@@ -100,7 +100,7 @@ export function resolver<A>(...args: any[]): Type<Resolve<A>> {
         constructor(private injector: Injector) {}
 
         resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<A> | Promise<A> | A {
-            const instances = deps.map((d) => this.injector.get(d));
+            const instances = deps.map((d) => this.injector.get<any>(d));
             return handler(...instances, route, state);
         }
     }
