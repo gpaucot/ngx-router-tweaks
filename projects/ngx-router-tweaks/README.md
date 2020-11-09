@@ -1,25 +1,29 @@
 # NgxRouterTweaks
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.6.
+ngx-router-tweaks brings the ability to write inline resovlers and to run them sequentially if needed. Typically in a pure REST environment where multiple cascade calls may be required to fetch what we need.  
 
-## Code scaffolding
+## Installing
 
-Run `ng generate component component-name --project ngx-router-tweaks` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-router-tweaks`.
+```bash
+$ npm install --save ngx-router-tweaks
+```
 
-> Note: Don't forget to add `--project ngx-router-tweaks` or else it will be added to the default project in your `angular.json` file.
+## Quickstart
 
-## Build
+Import **ngx-router-tweaks** module in Angular app.
 
-Run `ng build ngx-router-tweaks` to build the project. The build artifacts will be stored in the `dist/` directory.
+```typescript
+import { NgxRouterTweaksModule } from 'ngx-router-tweaks';
 
-## Publishing
+@NgModule({
+    imports: [
+        // ...
+        NgxRouterTweaksModule
+    ],
+    exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
 
-After building your library with `ng build ngx-router-tweaks`, go to the dist folder `cd dist/ngx-router-tweaks` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ngx-router-tweaks` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+There is a demo project in the repository: https://github.com/gpaucot/ngx-router-tweaks
+ 

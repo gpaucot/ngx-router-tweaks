@@ -7,5 +7,13 @@
     },
     "dependencies": {
         "tslib": "^2.0.0"
+    },
+    "homepage": "https://github.com/gpaucot/ngx-router-tweaks",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:gpaucot/ngx-router-tweaks.git"
+    },
+    "bugs": {
+        "url": "https://github.com/gpaucot/ngx-router-tweaks/issues"
     }
 }
