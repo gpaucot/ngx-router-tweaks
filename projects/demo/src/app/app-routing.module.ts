@@ -7,7 +7,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes), NgxRouterTweaksModule],
+    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }), NgxRouterTweaksModule],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}
