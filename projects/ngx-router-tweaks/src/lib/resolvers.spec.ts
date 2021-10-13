@@ -6,7 +6,11 @@ import { Router } from '@angular/router';
 describe('resolvers', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [RouterTestingModule.withRoutes([]), NgxRouterTweaksModule],
+            imports: [
+                //
+                RouterTestingModule.withRoutes([]),
+                NgxRouterTweaksModule,
+            ],
         }).compileComponents();
     });
 
